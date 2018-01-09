@@ -1,7 +1,7 @@
 ---
 mgmt_ip: 127.0.0.1
-netconf_port: 2223
-ssh_port: 2222
+netconf_port: 2209
+ssh_port: 2212
 username: vagrant
 password: vagrant
 hostname: nxos2
