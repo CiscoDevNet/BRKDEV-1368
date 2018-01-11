@@ -74,7 +74,7 @@
         hostname: "{{inventory_hostname}}"
 
     - name: Enable Features
-      with_items: {{features}}
+      with_items: "{{features}}"
       nxos_feature:
         provider:
           host: "{{mgmt_ip}}"
