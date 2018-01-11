@@ -1,15 +1,11 @@
 [all:vars]
 ansible_python_interpreter="/usr/bin/env python"
 
-[vagrant]
-iosxe1
-iosxe2
-nxos1
-nxos2
-
 [iosxe]
 iosxe1
 iosxe2
+iosxe3
+iosxe4
 
 [nxos]
 nxos1
