@@ -1,0 +1,4 @@
+.vagrant/
+venv
+*.pyc
+*.retry
