@@ -17,7 +17,7 @@
   tasks:
     - name: Pause to complete boot
       pause:
-        seconds: 10
+        seconds: 15
 
 - name: Bootstrap IOS XE Devices
   hosts: iosxe
