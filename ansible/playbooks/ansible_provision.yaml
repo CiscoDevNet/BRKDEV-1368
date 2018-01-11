@@ -1,0 +1,84 @@
+##############################################################
+# Sample: Vagrant for IOS XE Network Programmability Development
+# Author: Hank Preston <hapresto@cisco.com>
+#
+# ansible_provision.yaml
+# Illustrate the following concepts:
+# - Provision an IOS XE Device through Ansible
+# - Enable NETCONF/RESTCONF APIs and use them
+# - Enable Guest Shell
+##############################################################
+---
+- name: Complete Boot
+  hosts: all
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Pause to complete boot
+      pause:
+        seconds: 15
+
+- name: Bootstrap IOS XE Devices
+  hosts: iosxe
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Set Device Hostname
+      ios_config:
+        provider:
+          host: "{{mgmt_ip}}"
+          port: "{{ssh_port}}"
+          username: "{{username}}"
+          password: "{{password}}"
+        lines:
+          - "hostname {{inventory_hostname}}"
+
+    - name: Configure NETCONF and RESTCONF
+      ios_config:
+        provider:
+          host: "{{mgmt_ip}}"
+          port: "{{ssh_port}}"
+          username: "{{username}}"
+          password: "{{password}}"
+        lines:
+          - netconf-yang
+          - netconf-yang cisco-odm polling-enable
+          - restconf
+          - ip http server
+          - ip http secure-server
+
+    - name: Pause for NETCONF/RESTCONF to start
+      pause:
+        seconds: 45
+
+
+- name: Bootstrap NX-OS Devices
+  hosts: nxos
+  connection: local
+  gather_facts: false
+  vars:
+    features:
+      - nxapi
+      - bash
+
+  tasks:
+    - name: Set Device Hostname
+      nxos_system:
+        provider:
+          host: "{{mgmt_ip}}"
+          port: "{{ssh_port}}"
+          username: "{{username}}"
+          password: "{{password}}"
+        hostname: "{{inventory_hostname}}"
+
+    - name: Enable Features
+      with_items: "{{features}}"
+      nxos_feature:
+        provider:
+          host: "{{mgmt_ip}}"
+          port: "{{ssh_port}}"
+          username: "{{username}}"
+          password: "{{password}}"
+        feature: "{{item}}"

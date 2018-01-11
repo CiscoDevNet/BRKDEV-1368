@@ -1,0 +1,12 @@
+[all:vars]
+ansible_python_interpreter="/usr/bin/env python"
+
+[iosxe]
+iosxe1
+iosxe2
+iosxe3
+iosxe4
+
+[nxos]
+nxos1
+nxos2
