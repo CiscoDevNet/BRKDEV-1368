@@ -6,8 +6,6 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-
-
     # Deploy Multiple Nodes in a single Vagrantfile
 
     # Node 1: IOS XE Device
@@ -37,17 +35,8 @@ Vagrant.configure("2") do |config|
       end
 
       # Node 3: NX-OS Device
-      config.vm.define "nxos1" do |node|
-           node.vm.box =  "nxos/7.0.3.I7.2"
-
-          # Setting Timeout
-          # config.vm.boot_timeout = 600
-
-           # n9000v defaults to 8G RAM, but only needs 4G
-           config.vm.provider "virtualbox" do |vb|
-             # Customize the amount of memory on the VM:
-             vb.memory = "4096"
-           end
+      config.vm.define "iosxe3" do |node|
+           node.vm.box =  "iosxe/16.06.02"
 
            # Eth1/2 connected to iosxe1 Gig2
            # Eth1/3 connected to iosxe2 Gig2
@@ -59,18 +48,8 @@ Vagrant.configure("2") do |config|
       end
 
       # Node 4: NX-OS Device
-      config.vm.define "nxos2" do |node|
-           node.vm.box =  "nxos/7.0.3.I7.2"
-
-	   # Setting Timeout
-	   # config.vm.boot_timeout = 600
-
-
-           # n9000v defaults to 8G RAM, but only needs 4G
-           config.vm.provider "virtualbox" do |vb|
-             # Customize the amount of memory on the VM:
-             vb.memory = "4096"
-           end
+      config.vm.define "iosxe3" do |node|
+           node.vm.box =  "iosxe/16.06.02"
 
            # Eth1/2 connected to iosxe1 Gig3
            # Eth1/3 connected to iosxe2 Gig3
