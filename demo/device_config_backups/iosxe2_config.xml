@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<rpc-reply message-id="urn:uuid:fccc0669-7fcf-492d-ae52-ebdd6f75e32c" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+<rpc-reply message-id="urn:uuid:9271ca82-9ff9-447d-8e81-52262b1e580b" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
 	<data>
 		<native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
 			<version>16.6</version>

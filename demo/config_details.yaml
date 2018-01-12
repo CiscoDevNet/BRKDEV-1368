@@ -1,0 +1,63 @@
+---
+network_mgmt_host: cl-vagrant2.cisco.com
+username: vagrant
+password: vagrant
+devices:
+  - name: iosxe1
+    netconf_port: 2123
+    interfaces:
+      - name: GigabitEthernet2
+        enabled: "true"
+        ip: 10.0.0.1
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet3
+        enabled: "true"
+        ip: 10.0.0.5
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet4
+        enabled: "true"
+        ip: 10.100.100.1
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: Loopback0
+        enabled: "true"
+        ip: 1.1.1.1
+        prefix: 32
+        type: ianaift:softwareLoopback
+      - name: Loopback101
+        enabled: "true"
+        ip: 192.168.8.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback102
+        enabled: "true"
+        ip: 192.168.9.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback103
+        enabled: "true"
+        ip: 192.168.10.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback104
+        enabled: "true"
+        ip: 192.168.11.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback201
+        enabled: "true"
+        ip: 192.168.201.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+    ospf:
+      process_id: 100
+      router_id: 1.1.1.1
+      networks:
+        - network: 10.100.100.0
+          wildcard: 0.0.0.3
+          area: "0"
+        - network: 192.168.0.0
+          wildcard: 0.0.255.255
+          area: "0"

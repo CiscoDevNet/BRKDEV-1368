@@ -1,0 +1,8 @@
+Top Level YANG Models
+- http://openconfig.net/yang/interfaces
+  - used to configure L3 interfaces (Gig and Lo)
+- http://openconfig.net/yang/network-instance
+  - enable OSPF, but lacks config details
+- urn:ietf:params:xml:ns:yang:ietf-routing
+  - OSPF config setup, lacks network/area config
+  
