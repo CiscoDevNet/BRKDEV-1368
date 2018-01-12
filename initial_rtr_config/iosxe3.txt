@@ -1,0 +1,96 @@
+hostname iosxe3
+!
+interface Loopback0
+ ip address 3.3.3.3 255.255.255.255
+!
+interface Loopback101
+ ip address 172.16.24.1 255.255.255.0
+!
+interface Loopback102
+ ip address 172.16.25.1 255.255.255.0
+!
+interface Loopback103
+ ip address 172.16.26.1 255.255.255.0
+!
+interface Loopback104
+ ip address 172.16.27.1 255.255.255.0
+!
+interface GigabitEthernet2
+ ip address 10.0.0.2 255.255.255.252
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet3
+ ip address 10.0.0.10 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet4
+ ip address 10.200.200.1 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+router ospf 200
+ router-id 3.3.3.3
+ redistribute connected subnets
+ network 10.200.200.0 0.0.0.3 area 0
+ network 172.16.24.0 0.0.3.255 area 0
+!
+router bgp 96000
+ bgp router-id 3.3.3.3
+ bgp log-neighbor-changes
+ neighbor 10.0.0.1 remote-as 65512
+ neighbor 10.0.0.9 remote-as 65512
+ neighbor 10.200.200.2 remote-as 96000
+ !
+ address-family ipv4
+  network 172.16.24.0 mask 255.255.255.0
+  network 172.16.25.0 mask 255.255.255.0
+  network 172.16.26.0 mask 255.255.255.0
+  network 172.16.27.0 mask 255.255.255.0
+  neighbor 10.0.0.1 activate
+  neighbor 10.0.0.1 soft-reconfiguration inbound
+  neighbor 10.0.0.1 route-map FROM_IOSXE1 in
+  neighbor 10.0.0.1 route-map TO_IOSXE1 out
+  neighbor 10.0.0.9 activate
+  neighbor 10.0.0.9 soft-reconfiguration inbound
+  neighbor 10.0.0.9 route-map FROM_IOSXE2 in
+  neighbor 10.0.0.9 route-map TO_IOSXE2 out
+  neighbor 10.200.200.2 activate
+  neighbor 10.200.200.2 next-hop-self
+  neighbor 10.200.200.2 soft-reconfiguration inbound
+  neighbor 10.200.200.2 route-map FROM_IOSXE4 in
+  neighbor 10.200.200.2 route-map TO_IOSXE4 out
+ exit-address-family
+!
+ip prefix-list FROM_IOSXE1 seq 5 permit 192.168.8.0/22 le 24
+!
+ip prefix-list LOOPS seq 5 permit 172.16.24.0/22 le 24
+!
+!
+route-map FROM_IOSXE1 permit 10
+ match ip address prefix-list FROM_IOSXE1
+ set local-preference 200
+!
+route-map FROM_IOSXE1 permit 1000
+!
+route-map FROM_IOSXE2 permit 1000
+!
+route-map FROM_IOSXE4 permit 1000
+!
+route-map TO_IOSXE4 permit 1000
+!
+route-map TO_IOSXE1 permit 1000
+!
+route-map TO_IOSXE2 permit 10
+ match ip address prefix-list LOOPS
+ set as-path prepend 96000 96000
+!
+route-map TO_IOSXE2 permit 1000

@@ -1,0 +1,91 @@
+hostname iosxe1
+!
+ip domain name dna.lab
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Loopback101
+ ip address 192.168.8.1 255.255.255.0
+!
+interface Loopback102
+ ip address 192.168.9.1 255.255.255.0
+!
+interface Loopback103
+ ip address 192.168.10.1 255.255.255.0
+!
+interface Loopback104
+ ip address 192.168.11.1 255.255.255.0
+!
+interface GigabitEthernet2
+ ip address 10.0.0.1 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet3
+ ip address 10.0.0.5 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet4
+ ip address 10.100.100.1 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+router ospf 100
+ router-id 1.1.1.1
+ redistribute connected subnets
+ network 10.100.100.0 0.0.0.3 area 0
+ network 192.168.0.0 0.0.255.255 area 0
+!
+router bgp 65512
+ bgp router-id 1.1.1.1
+ bgp log-neighbor-changes
+ neighbor 10.0.0.2 remote-as 96000
+ neighbor 10.0.0.6 remote-as 96000
+ neighbor 10.100.100.2 remote-as 65512
+ !
+ address-family ipv4
+  redistribute connected route-map LOOPS2BGP
+  neighbor 10.0.0.2 activate
+  neighbor 10.0.0.2 soft-reconfiguration inbound
+  neighbor 10.0.0.2 route-map FROM_IOSXE3 in
+  neighbor 10.0.0.2 route-map TO_IOSXE3 out
+  neighbor 10.0.0.6 activate
+  neighbor 10.0.0.6 soft-reconfiguration inbound
+  neighbor 10.0.0.6 route-map FROM_IOSXE4 in
+  neighbor 10.0.0.6 route-map TO_IOSXE4 out
+  neighbor 10.100.100.2 activate
+  neighbor 10.100.100.2 next-hop-self
+  neighbor 10.100.100.2 soft-reconfiguration inbound
+  neighbor 10.100.100.2 route-map FROM_IOSXE2 in
+  neighbor 10.100.100.2 route-map TO_IOSXE2 out
+ exit-address-family
+!
+!
+ip prefix-list LOOPS seq 5 permit 192.168.8.0/24
+ip prefix-list LOOPS seq 10 permit 192.168.9.0/24
+ip prefix-list LOOPS seq 15 permit 192.168.10.0/24
+ip prefix-list LOOPS seq 20 permit 192.168.11.0/24
+!
+!
+route-map LOOPS2BGP permit 10
+ match ip address prefix-list LOOPS
+!
+route-map FROM_IOSXE3 permit 1000
+!
+route-map FROM_IOSXE2 permit 1000
+!
+route-map FROM_IOSXE4 permit 1000
+!
+route-map TO_IOSXE4 permit 1000
+!
+route-map TO_IOSXE2 permit 1000
+!
+route-map TO_IOSXE3 permit 1000
