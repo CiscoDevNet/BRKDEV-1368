@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
           node.vm.network :private_network, virtualbox__intnet: "wire3", auto_config: false
       end
 
-      # Node 3: NX-OS Device
+      # Node 3: IOS-XE Device
       config.vm.define "iosxe3" do |node|
            node.vm.box =  "iosxe/16.06.02"
 
@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
              node.vm.network :private_network, virtualbox__intnet: "wire6", auto_config: false
       end
 
-      # Node 4: NX-OS Device
+      # Node 4: IOS-XE Device
       config.vm.define "iosxe4" do |node|
            node.vm.box =  "iosxe/16.06.02"
 
@@ -82,6 +82,25 @@ Vagrant.configure("2") do |config|
              node.vm.network :private_network, virtualbox__intnet: "wire2", auto_config: false
              node.vm.network :private_network, virtualbox__intnet: "wire5", auto_config: false
              node.vm.network :private_network, virtualbox__intnet: "wire6", auto_config: false
+      end
+
+      # Node 5: IOS-XE Device
+      config.vm.define "iosxe5" do |node|
+           node.vm.box =  "iosxe/16.06.02"
+
+           config.vm.network :forwarded_port, guest: 22, host: 2522, id: 'ssh', auto_correct: true
+           config.vm.network :forwarded_port, guest: 830, host: 2523, id: 'netconf', auto_correct: true
+           config.vm.network :forwarded_port, guest: 80, host: 2524, id: 'restconf', auto_correct: true
+           config.vm.network :forwarded_port, guest: 443, host: 2525, id: 'restconf-ssl', auto_correct: true
+           config.vm.network :forwarded_port, guest: 8443, host: 2526, id: 'iox', auto_correct: true
+
+           # Eth1/2 connected to iosxe1 Gig3
+           # Eth1/3 connected to iosxe2 Gig3
+           # Eth1/4 connected to nxos Eth1/4
+           # auto-config not supported.
+           #  node.vm.network :private_network, virtualbox__intnet: "wire2", auto_config: false
+           #  node.vm.network :private_network, virtualbox__intnet: "wire5", auto_config: false
+           #  node.vm.network :private_network, virtualbox__intnet: "wire6", auto_config: false
       end
 
       config.vm.provision "ansible" do |ansible|

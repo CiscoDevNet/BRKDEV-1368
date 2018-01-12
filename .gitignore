@@ -4,3 +4,4 @@ venv
 *.retry
 .DS_Store
 .idea/
+initial_rtr_config/
