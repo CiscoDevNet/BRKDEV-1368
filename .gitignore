@@ -4,4 +4,4 @@ venv
 *.retry
 .DS_Store
 .idea/
-
+device_config_backups
