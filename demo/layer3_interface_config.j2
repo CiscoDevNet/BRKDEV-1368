@@ -1,0 +1,45 @@
+<config>
+  <interfaces xmlns="http://openconfig.net/yang/interfaces">
+    {% for interface in interfaces %}
+    <interface>
+      <name>{{interface.name}}</name>
+      <config>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">{{interface.type}}</type>
+        <name>{{interface.name}}</name>
+        <enabled>{{interface.enabled}}</enabled>
+      </config>
+      <subinterfaces>
+        <subinterface>
+          <index>0</index>
+          <config>
+            <index>0</index>
+            <name>{{interface.name}}</name>
+            <enabled>{{interface.enabled}}</enabled>
+          </config>
+          <ipv4 xmlns="http://openconfig.net/yang/interfaces/ip">
+            <addresses>
+              <address>
+                <ip>{{interface.ip}}</ip>
+                <config>
+                  <ip>{{interface.ip}}</ip>
+                  <prefix-length>{{interface.prefix}}</prefix-length>
+                </config>
+              </address>
+            </addresses>
+          </ipv4>
+          <ipv6 xmlns="http://openconfig.net/yang/interfaces/ip">
+            <config>
+              <enabled>false</enabled>
+            </config>
+          </ipv6>
+        </subinterface>
+      </subinterfaces>
+      <ethernet xmlns="http://openconfig.net/yang/interfaces/ethernet">
+        <config>
+          <auto-negotiate>true</auto-negotiate>
+        </config>
+      </ethernet>
+    </interface>
+    {% endfor %}
+  </interfaces>
+</config>
