@@ -3,6 +3,20 @@
     <router>
       <ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
         <id>{{ospf.process_id}}</id>
+
+        {% for area in ospf.areas %}
+        <area>
+          <id>{{area.area}}</id>
+          {% if area.type == "stub" %}
+          <stub>
+            {% if area.no_summary %}
+            <no-summary />
+            {% endif %}
+          </stub>
+          {% endif %}
+        </area>
+        {% endfor %}
+
         <router-id>{{ospf.router_id}}</router-id>
         <redistribute>
           <connected>

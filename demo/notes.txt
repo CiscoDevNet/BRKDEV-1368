@@ -5,4 +5,8 @@ Top Level YANG Models
   - enable OSPF, but lacks config details
 - urn:ietf:params:xml:ns:yang:ietf-routing
   - OSPF config setup, lacks network/area config
-  
+
+- YANG Issues
+  - BGP
+  - Prefix LIst
+  - Can't "no shut" with YANG 
