@@ -69,8 +69,12 @@ for device in config["devices"]:
 
         # Send NETCONF Configurations with <edit-config> RPC
         print("  Sending NETCONF Configuration edit-config operations")
-        l3_reply = xmltodict.parse(m.edit_config(l3_config, target = "running").xml)
-        ospf_reply = xmltodict.parse(m.edit_config(ospf_config, target = "running").xml)
+        l3_resp = m.edit_config(l3_config, target = "running")
+        ospf_resp = m.edit_config(ospf_config, target = "running")
+
+        # Process XML data in replies
+        l3_reply = xmltodict.parse(l3_resp.xml)
+        ospf_reply = xmltodict.parse(ospf_resp.xml)
 
         # Print Config Replies
         print("    Layer 3 Interface Config: {}".format(l3_reply["rpc-reply"].keys()[3]))
