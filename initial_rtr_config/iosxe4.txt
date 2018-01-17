@@ -1,0 +1,37 @@
+hostname iosxe4
+!
+interface Loopback0
+ ip address 4.4.4.4 255.255.255.255
+!
+interface Loopback101
+ ip address 172.16.28.1 255.255.255.0
+!
+interface Loopback102
+ ip address 172.16.29.1 255.255.255.0
+!
+interface Loopback103
+ ip address 172.16.30.1 255.255.255.0
+!
+interface Loopback104
+ ip address 172.16.31.1 255.255.255.0
+!
+interface GigabitEthernet2
+ ip address 10.0.0.6 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet3
+ ip address 10.0.0.14 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+router ospf 100
+ router-id 4.4.4.4
+ network 10.0.0.6 0.0.0.0 area 512
+ network 10.0.0.14 0.0.0.0 area 512
+ network 172.16.28.0 0.0.3.255 area 512
+ area 512 stub no-summary

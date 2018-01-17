@@ -1,0 +1,38 @@
+hostname iosxe3
+!
+interface Loopback0
+ ip address 3.3.3.3 255.255.255.255
+!
+interface Loopback101
+ ip address 172.16.24.1 255.255.255.0
+!
+interface Loopback102
+ ip address 172.16.25.1 255.255.255.0
+!
+interface Loopback103
+ ip address 172.16.26.1 255.255.255.0
+!
+interface Loopback104
+ ip address 172.16.27.1 255.255.255.0
+!
+interface GigabitEthernet2
+ ip address 10.0.0.2 255.255.255.252
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet3
+ ip address 10.0.0.10 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+router ospf 100
+ router-id 3.3.3.3
+ network 10.0.0.2 0.0.0.0 area 256
+ network 10.0.0.10 0.0.0.0 area 256
+ network 172.16.24.0 0.0.3.255 area 256
+ area 256 stub
