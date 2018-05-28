@@ -2,4 +2,7 @@
 venv
 *.pyc
 *.retry
+.DS_Store
+.idea/
+device_config_backups
 demo/netconf_configs

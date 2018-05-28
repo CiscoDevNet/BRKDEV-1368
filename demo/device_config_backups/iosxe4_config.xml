@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<rpc-reply message-id="urn:uuid:af8713f0-69b7-4316-a3cd-b30a4c84f9eb" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+<rpc-reply message-id="urn:uuid:f2b74a59-50d7-4903-9d2e-ae7ca07d0bee" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
 	<data>
 		<native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
 			<version>16.6</version>
@@ -125,12 +125,9 @@
 				<GigabitEthernet>
 					<name>4</name>
 					<ip>
-						<address>
-							<primary>
-								<address>10.200.200.2</address>
-								<mask>255.255.255.252</mask>
-							</primary>
-						</address>
+						<no-address>
+							<address>false</address>
+						</no-address>
 					</ip>
 					<mop>
 						<enabled>false</enabled>
@@ -234,7 +231,13 @@
 			</crypto>
 			<router>
 				<ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
-					<id>200</id>
+					<id>100</id>
+					<area>
+						<id>512</id>
+						<stub>
+							<no-summary/>
+						</stub>
+					</area>
 					<router-id>4.4.4.4</router-id>
 					<redistribute>
 						<connected>
@@ -244,14 +247,19 @@
 						</connected>
 					</redistribute>
 					<network>
-						<ip>10.200.200.0</ip>
-						<mask>0.0.0.3</mask>
-						<area>0</area>
+						<ip>10.0.0.6</ip>
+						<mask>0.0.0.0</mask>
+						<area>512</area>
+					</network>
+					<network>
+						<ip>10.0.0.14</ip>
+						<mask>0.0.0.0</mask>
+						<area>512</area>
 					</network>
 					<network>
 						<ip>172.16.28.0</ip>
 						<mask>0.0.3.255</mask>
-						<area>0</area>
+						<area>512</area>
 					</network>
 				</ospf>
 			</router>
@@ -267,7 +275,10 @@
 			<line>
 				<vty>
 					<first>0</first>
-					<last>4</last>
+					<last>15</last>
+					<exec-timeout>
+						<minutes>30</minutes>
+					</exec-timeout>
 					<login>
 						<local/>
 					</login>
@@ -282,36 +293,6 @@
 		<netconf-yang xmlns="http://cisco.com/yang/cisco-self-mgmt">
 			<cisco-odm xmlns="http://cisco.com/yang/cisco-odm">
 				<polling-enable>true</polling-enable>
-				<actions>
-					<action-name>EthernetCFMStats</action-name>
-				</actions>
-				<actions>
-					<action-name>Diffserv</action-name>
-				</actions>
-				<actions>
-					<action-name>MPLSLDPNeighbors</action-name>
-				</actions>
-				<actions>
-					<action-name>IPRoute</action-name>
-				</actions>
-				<actions>
-					<action-name>BridgeDomain</action-name>
-				</actions>
-				<actions>
-					<action-name>OSPF</action-name>
-				</actions>
-				<actions>
-					<action-name>MPLSStaticBinding</action-name>
-				</actions>
-				<actions>
-					<action-name>VirtualService</action-name>
-				</actions>
-				<actions>
-					<action-name>BFDNeighbors</action-name>
-				</actions>
-				<actions>
-					<action-name>MPLSForwardingTable</action-name>
-				</actions>
 			</cisco-odm>
 		</netconf-yang>
 		<interfaces xmlns="http://openconfig.net/yang/interfaces">
@@ -436,17 +417,6 @@
 							<name>GigabitEthernet4</name>
 							<enabled>true</enabled>
 						</config>
-						<ipv4 xmlns="http://openconfig.net/yang/interfaces/ip">
-							<addresses>
-								<address>
-									<ip>10.200.200.2</ip>
-									<config>
-										<ip>10.200.200.2</ip>
-										<prefix-length>30</prefix-length>
-									</config>
-								</address>
-							</addresses>
-						</ipv4>
 						<ipv6 xmlns="http://openconfig.net/yang/interfaces/ip">
 							<config>
 								<enabled>false</enabled>
@@ -664,10 +634,10 @@
 				<protocols>
 					<protocol>
 						<identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:OSPF</identifier>
-						<name>200</name>
+						<name>100</name>
 						<config>
 							<identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:OSPF</identifier>
-							<name>200</name>
+							<name>100</name>
 						</config>
 					</protocol>
 					<protocol>
@@ -717,12 +687,7 @@
 				<name>GigabitEthernet4</name>
 				<type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
 				<enabled>true</enabled>
-				<ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
-					<address>
-						<ip>10.200.200.2</ip>
-						<netmask>255.255.255.252</netmask>
-					</address>
-				</ipv4>
+				<ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip"/>
 				<ipv6 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip"/>
 			</interface>
 			<interface>
@@ -794,7 +759,7 @@
 				<routing-protocols>
 					<routing-protocol>
 						<type xmlns:ospf="urn:ietf:params:xml:ns:yang:ietf-ospf">ospf:ospfv2</type>
-						<name>200</name>
+						<name>100</name>
 						<ospf xmlns="urn:ietf:params:xml:ns:yang:ietf-ospf">
 							<instance>
 								<af xmlns:rt="urn:ietf:params:xml:ns:yang:ietf-routing">rt:ipv4</af>
@@ -805,6 +770,9 @@
 								<auto-cost>
 									<enable>false</enable>
 								</auto-cost>
+								<area>
+									<area-id>512</area-id>
+								</area>
 								<redistribution xmlns="urn:ietf:params:xml:ns:yang:cisco-ospf">
 									<rip/>
 									<connected/>
