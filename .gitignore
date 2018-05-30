@@ -5,3 +5,5 @@ venv
 .DS_Store
 .idea/
 initial_rtr_config/
+venv3/
+venv/
