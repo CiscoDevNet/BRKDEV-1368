@@ -53,7 +53,21 @@
       pause:
         seconds: 45
 
-
+    - name: Enable Network Interfaces
+      with_items:
+        - GigabitEthernet2
+        - GigabitEthernet3
+        - GigabitEthernet4
+      ios_config:
+        provider:
+          host: "{{mgmt_ip}}"
+          port: "{{ssh_port}}"
+          username: "{{username}}"
+          password: "{{password}}"
+        lines:
+          - no shutdown
+        parents: "interface {{item}}"
+        
 - name: Bootstrap NX-OS Devices
   hosts: nxos
   connection: local

@@ -1,0 +1,306 @@
+---
+# Network Host Connectivity Info
+network_mgmt_host: cl-vagrant2.cisco.com
+username: vagrant
+password: vagrant
+
+# Network Devices
+devices:
+  # IOS XE 1
+  - name: iosxe1
+    netconf_port: 2123
+    interfaces:
+      - name: GigabitEthernet2
+        enabled: "true"
+        ip: 10.0.0.1
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet3
+        enabled: "true"
+        ip: 10.0.0.5
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet4
+        enabled: "true"
+        ip: 10.100.100.1
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: Loopback0
+        enabled: "true"
+        ip: 1.1.1.1
+        prefix: 32
+        type: ianaift:softwareLoopback
+      - name: Loopback101
+        enabled: "true"
+        ip: 192.168.8.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback102
+        enabled: "true"
+        ip: 192.168.9.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback103
+        enabled: "true"
+        ip: 192.168.10.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback104
+        enabled: "true"
+        ip: 192.168.11.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback200
+        enabled: "true"
+        ip: 10.10.200.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback201
+        enabled: "true"
+        ip: 10.10.201.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback202
+        enabled: "true"
+        ip: 10.10.202.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback203
+        enabled: "true"
+        ip: 10.10.203.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+    ospf:
+      process_id: 100
+      router_id: 1.1.1.1
+      areas:
+        - area: "256"
+          type: stub
+        - area: "512"
+          type: stub
+          no_summary: true
+      networks:
+        - network: 10.0.0.1
+          wildcard: 0.0.0.0
+          area: "256"
+        - network: 10.0.0.5
+          wildcard: 0.0.0.0
+          area: "512"
+        - network: 10.100.100.1
+          wildcard: 0.0.0.0
+          area: "0"
+        - network: 10.100.200.0
+          wildcard: 0.0.3.255
+          area: "0"
+        - network: 192.168.8.1
+          wildcard: 0.0.0.0
+          area: "101"
+        - network: 192.168.9.1
+          wildcard: 0.0.0.0
+          area: "102"
+        - network: 192.168.10.1
+          wildcard: 0.0.0.0
+          area: "103"
+        - network: 192.168.11.1
+          wildcard: 0.0.0.0
+          area: "104"
+  # IOS XE 2
+  - name: iosxe2
+    netconf_port: 2223
+    interfaces:
+      - name: GigabitEthernet2
+        enabled: "true"
+        ip: 10.0.0.9
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet3
+        enabled: "true"
+        ip: 10.0.0.13
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet4
+        enabled: "true"
+        ip: 10.100.100.2
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: Loopback0
+        enabled: "true"
+        ip: 2.2.2.2
+        prefix: 32
+        type: ianaift:softwareLoopback
+      - name: Loopback101
+        enabled: "true"
+        ip: 192.168.16.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback102
+        enabled: "true"
+        ip: 192.168.17.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback103
+        enabled: "true"
+        ip: 192.168.18.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback104
+        enabled: "true"
+        ip: 192.168.19.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback160
+        enabled: "true"
+        ip: 10.10.160.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback161
+        enabled: "true"
+        ip: 10.10.161.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback162
+        enabled: "true"
+        ip: 10.10.162.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback163
+        enabled: "true"
+        ip: 10.10.163.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+    ospf:
+      process_id: 100
+      router_id: 2.2.2.2
+      areas:
+        - area: "256"
+          type: stub
+        - area: "512"
+          type: stub
+          no_summary: true
+      networks:
+        - network: 10.0.0.9
+          wildcard: 0.0.0.0
+          area: "256"
+        - network: 10.0.0.13
+          wildcard: 0.0.0.0
+          area: "512"
+        - network: 10.100.100.2
+          wildcard: 0.0.0.0
+          area: "0"
+        - network: 10.100.160.0
+          wildcard: 0.0.3.255
+          area: "0"
+        - network: 192.168.16.1
+          wildcard: 0.0.0.0
+          area: "1000"
+  # IOS XE 3
+  - name: iosxe3
+    netconf_port: 2323
+    interfaces:
+      - name: GigabitEthernet2
+        enabled: "true"
+        ip: 10.0.0.2
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet3
+        enabled: "true"
+        ip: 10.0.0.10
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: Loopback0
+        enabled: "true"
+        ip: 3.3.3.3
+        prefix: 32
+        type: ianaift:softwareLoopback
+      - name: Loopback101
+        enabled: "true"
+        ip: 172.16.24.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback102
+        enabled: "true"
+        ip: 172.16.25.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback103
+        enabled: "true"
+        ip: 172.16.26.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback104
+        enabled: "true"
+        ip: 172.16.27.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+    ospf:
+      process_id: 100
+      router_id: 3.3.3.3
+      areas:
+        - area: "256"
+          type: stub
+      networks:
+        - network: 10.0.0.2
+          wildcard: 0.0.0.0
+          area: "256"
+        - network: 10.0.0.10
+          wildcard: 0.0.0.0
+          area: "256"
+        - network: 172.16.24.0
+          wildcard: 0.0.3.255
+          area: "256"
+  # IOS XE 4
+  - name: iosxe4
+    netconf_port: 2423
+    interfaces:
+      - name: GigabitEthernet2
+        enabled: "true"
+        ip: 10.0.0.6
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: GigabitEthernet3
+        enabled: "true"
+        ip: 10.0.0.14
+        prefix: 30
+        type: ianaift:ethernetCsmacd
+      - name: Loopback0
+        enabled: "true"
+        ip: 4.4.4.4
+        prefix: 32
+        type: ianaift:softwareLoopback
+      - name: Loopback101
+        enabled: "true"
+        ip: 172.16.28.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback102
+        enabled: "true"
+        ip: 172.16.29.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback103
+        enabled: "true"
+        ip: 172.16.30.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+      - name: Loopback104
+        enabled: "true"
+        ip: 172.16.31.1
+        prefix: 24
+        type: ianaift:softwareLoopback
+    ospf:
+      process_id: 100
+      router_id: 4.4.4.4
+      areas:
+        - area: "512"
+          type: stub
+          no_summary: true
+      networks:
+        - network: 10.0.0.6
+          wildcard: 0.0.0.0
+          area: "512"
+        - network: 10.0.0.14
+          wildcard: 0.0.0.0
+          area: "512"
+        - network: 172.16.28.0
+          wildcard: 0.0.3.255
+          area: "512"

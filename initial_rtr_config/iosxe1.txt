@@ -1,0 +1,65 @@
+hostname iosxe1
+!
+ip domain name dna.lab
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Loopback101
+ ip address 192.168.8.1 255.255.255.0
+!
+interface Loopback102
+ ip address 192.168.9.1 255.255.255.0
+!
+interface Loopback103
+ ip address 192.168.10.1 255.255.255.0
+!
+interface Loopback104
+ ip address 192.168.11.1 255.255.255.0
+!
+interface Loopback200
+ ip address 10.10.200.1 255.255.255.0
+!
+interface Loopback201
+ ip address 10.10.201.1 255.255.255.0
+!
+interface Loopback202
+ ip address 10.10.202.1 255.255.255.0
+!
+interface Loopback203
+ ip address 10.10.203.1 255.255.255.0
+!
+interface GigabitEthernet2
+ ip address 10.0.0.1 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet3
+ ip address 10.0.0.5 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet4
+ ip address 10.100.100.1 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+
+ router ospf 100
+  router-id 1.1.1.1
+  network 10.0.0.1 0.0.0.0 area 256
+  network 10.0.0.5 0.0.0.0 area 512
+  network 10.100.100.1 0.0.0.0 area 0
+  network 10.100.200.0 0.0.3.255 area 0
+  network 192.168.8.1 0.0.0.0 area 101
+  network 192.168.9.1 0.0.0.0 area 102
+  network 192.168.10.1 0.0.0.0 area 103
+  no network 192.168.1.1 0.0.0.0 area 104
+  network 192.168.11.1 0.0.0.0 area 104
+  area 256 stub
+  area 512 stub no-summary

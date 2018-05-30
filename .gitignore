@@ -4,6 +4,11 @@ venv
 *.retry
 .DS_Store
 .idea/
+<<<<<<< HEAD
 initial_rtr_config/
 venv3/
 venv/
+=======
+device_config_backups
+demo/netconf_configs
+>>>>>>> 0c56b40308c64711e1f36e891d663dcd52f4b2ee

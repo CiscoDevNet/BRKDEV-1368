@@ -1,0 +1,59 @@
+hostname iosxe2
+!
+interface Loopback0
+ ip address 2.2.2.2 255.255.255.255
+!
+interface Loopback101
+ ip address 192.168.16.1 255.255.255.0
+!
+interface Loopback102
+ ip address 192.168.17.1 255.255.255.0
+!
+interface Loopback103
+ ip address 192.168.18.1 255.255.255.0
+!
+interface Loopback104
+ ip address 192.168.19.1 255.255.255.0
+!
+interface Loopback160
+  ip address 10.10.160.1 255.255.255.0
+ !
+ interface Loopback161
+  ip address 10.10.161.1 255.255.255.0
+ !
+ interface Loopback162
+  ip address 10.10.162.1 255.255.255.0
+ !
+ interface Loopback163
+  ip address 10.10.163.1 255.255.255.0
+!
+interface GigabitEthernet2
+ ip address 10.0.0.9 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet3
+ ip address 10.0.0.13 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+interface GigabitEthernet4
+ ip address 10.100.100.2 255.255.255.252
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ no shut
+!
+router ospf 100
+ router-id 2.2.2.2
+ network 10.0.0.9 0.0.0.0 area 256
+ network 10.0.0.13 0.0.0.0 area 512
+ network 10.100.100.2 0.0.0.0 area 0
+ network 10.10.160.0 0.0.3.255 area 0
+ network 192.168.16.0 0.0.3.255 area 1000
+ area 256 stub
+ area 512 stub no-summary
