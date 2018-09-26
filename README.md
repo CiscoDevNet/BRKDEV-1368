@@ -15,7 +15,7 @@ Follow these instructions to standup the demo and code environment.
   ```bash
   virtualenv venv --python=python2.7
   source venv/bin/activate
-  pip install requirements.txt
+  pip install -r requirements.txt
   ```
 
 1. Vagrant Up the environment
