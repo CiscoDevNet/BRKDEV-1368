@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 """
+<<<<<<< HEAD
 Copyright (c) 2019 Cisco and/or its affiliates.
 
 This software is licensed to you under the terms of the Cisco Sample
@@ -20,6 +21,17 @@ __author__ = "Hank Preston <hapresto@cisco.com>"
 __contributors__ = "Bryan Byrne <brybyrne@cisco.com>"
 __copyright__ = "Copyright (c) 2019 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.0"
+=======
+example-ssl.py
+Illustrate the following concepts:
+- Using requests to allow a self-signed certificate
+"""
+
+__author__ = "Hank Preston"
+__author_email__ = "hapresto@cisco.com"
+__copyright__ = "Copyright (c) 2016 Cisco Systems, Inc."
+__license__ = "MIT"
+>>>>>>> master
 
 import requests
 import urllib3
