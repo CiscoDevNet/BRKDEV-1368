@@ -23,11 +23,7 @@ __license__ = "Cisco Sample Code License, Version 1.0"
 
 
 from device_info import ios_xe1
-from ncclient import manager
-import xmltodict
-
-# NETCONF filter to use
-netconf_filter = open("filter-ietf-interfaces.xml").read()
+from ncclient import manager, xml_
 
 if __name__ == '__main__':
     with manager.connect(host=ios_xe1["address"],
@@ -36,19 +32,11 @@ if __name__ == '__main__':
                          password=ios_xe1["password"],
                          hostkey_verify=False) as m:
 
-        # Get Configuration and State Info for Interface
-        netconf_reply = m.get(netconf_filter)
+        # Build XML Payload for the RPC
+        save_body = '<cisco-ia:save-config xmlns:cisco-ia="http://cisco.com/yang/cisco-ia"/>'
 
-        # Process the XML and store in useful dictionaries
-        intf_details = xmltodict.parse(netconf_reply.xml)["rpc-reply"]["data"]
-        intf_config = intf_details["interfaces"]["interface"]
-        intf_info = intf_details["interfaces-state"]["interface"]
+        # Send the RPC to the Device
+        save_rpc = m.dispatch(xml_.to_ele(save_body))
 
-        print("")
-        print("Interface Details:")
-        print("  Name: {}".format(intf_config["name"]))
-        print("  Description: {}".format(intf_config["description"]))
-        print("  Type: {}".format(intf_config["type"]["#text"]))
-        print("  MAC Address: {}".format(intf_info["phys-address"]))
-        print("  Packets Input: {}".format(intf_info["statistics"]["in-unicast-pkts"]))
-        print("  Packets Output: {}".format(intf_info["statistics"]["out-unicast-pkts"]))
+        # Print the NETCONF Reply
+        print(save_rpc)
