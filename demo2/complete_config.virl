@@ -1,0 +1,1633 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.95" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.95/virl.xsd">
+    <extensions>
+        <entry key="management_lxc" type="Boolean">false</entry>
+        <entry key="management_network" type="String">flat</entry>
+    </extensions>
+    <node name="dist1" type="SIMPLE" subtype="NX-OSv 9000" location="108,143" ipv4="192.168.0.1">
+        <extensions>
+            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:aa</entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"/>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="ansible_group" type="String">distribution</entry>
+            <entry key="config" type="String">!Command: show running-config
+!Running configuration last done at: Thu Jan 17 20:27:11 2019
+!Time: Thu Jan 17 20:59:27 2019
+
+version 9.2(2) Bios:version
+power redundancy-mode combined force
+
+hostname dist1
+vdc dist1 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 128 maximum 128
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+feature nxapi
+feature bash-shell
+feature scp-server
+cfs eth distribute
+feature ospf
+feature bgp
+feature interface-vlan
+feature hsrp
+feature lacp
+feature vpc
+
+no password strength-check
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51  role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1  role network-admin
+no ip domain-lookup
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+vlan 1,100-103
+vlan 100
+  name Management
+vlan 101
+  name Private
+vlan 102
+  name Guest
+vlan 103
+  name Security
+
+ip prefix-list DC-NETWORKS seq 5 permit 172.16.0.0/16 le 32
+route-map CONN&gt;BGP permit 10
+  match ip address prefix-list DC-NETWORKS
+vrf context management
+  ip route 0.0.0.0/0 172.16.30.254
+hardware forwarding unicast trace
+vpc domain 100
+  peer-keepalive destination 172.16.30.56 source 172.16.30.55
+  peer-gateway
+  auto-recovery
+
+
+interface Vlan1
+  no ip redirects
+  no ipv6 redirects
+
+interface Vlan100
+  description VLAN Interface - Management
+  no shutdown
+  no ip redirects
+  ip address 172.16.100.2/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.100.1
+
+interface Vlan101
+  description VLAN Interface - Private
+  no shutdown
+  no ip redirects
+  ip address 172.16.101.2/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.101.1
+
+interface Vlan102
+  description VLAN Interface - Guest
+  no shutdown
+  no ip redirects
+  ip address 172.16.102.2/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.102.1
+
+interface Vlan103
+  description VLAN Interface - Security
+  no shutdown
+  no ip redirects
+  ip address 172.16.103.2/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.103.1
+
+interface port-channel1
+  switchport mode trunk
+  spanning-tree port type network
+  vpc peer-link
+
+interface port-channel11
+  switchport mode trunk
+  vpc 11
+
+interface Ethernet1/1
+  switchport mode trunk
+  channel-group 11
+
+interface Ethernet1/2
+
+interface Ethernet1/3
+  switchport mode trunk
+  channel-group 1
+
+interface Ethernet1/4
+  switchport mode trunk
+  channel-group 1
+
+interface Ethernet1/5
+  description L3 Link to core1
+  no switchport
+  ip address 172.16.0.2/30
+  no shutdown
+
+interface Ethernet1/6
+  description L3 Link to core2
+  no switchport
+  ip address 172.16.0.10/30
+  no shutdown
+
+interface Ethernet1/7
+
+interface Ethernet1/8
+
+interface Ethernet1/9
+
+interface Ethernet1/10
+
+interface Ethernet1/11
+
+interface Ethernet1/12
+
+interface Ethernet1/13
+
+interface Ethernet1/14
+
+interface Ethernet1/15
+
+interface Ethernet1/16
+
+interface Ethernet1/17
+
+interface Ethernet1/18
+
+interface Ethernet1/19
+
+interface Ethernet1/20
+
+interface Ethernet1/21
+
+interface Ethernet1/22
+
+interface Ethernet1/23
+
+interface Ethernet1/24
+
+interface Ethernet1/25
+
+interface Ethernet1/26
+
+interface Ethernet1/27
+
+interface Ethernet1/28
+
+interface Ethernet1/29
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+
+interface Ethernet1/32
+
+interface Ethernet1/33
+
+interface Ethernet1/34
+
+interface Ethernet1/35
+
+interface Ethernet1/36
+
+interface Ethernet1/37
+
+interface Ethernet1/38
+
+interface Ethernet1/39
+
+interface Ethernet1/40
+
+interface Ethernet1/41
+
+interface Ethernet1/42
+
+interface Ethernet1/43
+
+interface Ethernet1/44
+
+interface Ethernet1/45
+
+interface Ethernet1/46
+
+interface Ethernet1/47
+
+interface Ethernet1/48
+
+interface Ethernet1/49
+
+interface Ethernet1/50
+
+interface Ethernet1/51
+
+interface Ethernet1/52
+
+interface Ethernet1/53
+
+interface Ethernet1/54
+
+interface Ethernet1/55
+
+interface Ethernet1/56
+
+interface Ethernet1/57
+
+interface Ethernet1/58
+
+interface Ethernet1/59
+
+interface Ethernet1/60
+
+interface Ethernet1/61
+
+interface Ethernet1/62
+
+interface Ethernet1/63
+
+interface Ethernet1/64
+
+interface Ethernet1/65
+
+interface Ethernet1/66
+
+interface Ethernet1/67
+
+interface Ethernet1/68
+
+interface Ethernet1/69
+
+interface Ethernet1/70
+
+interface Ethernet1/71
+
+interface Ethernet1/72
+
+interface Ethernet1/73
+
+interface Ethernet1/74
+
+interface Ethernet1/75
+
+interface Ethernet1/76
+
+interface Ethernet1/77
+
+interface Ethernet1/78
+
+interface Ethernet1/79
+
+interface Ethernet1/80
+
+interface Ethernet1/81
+
+interface Ethernet1/82
+
+interface Ethernet1/83
+
+interface Ethernet1/84
+
+interface Ethernet1/85
+
+interface Ethernet1/86
+
+interface Ethernet1/87
+
+interface Ethernet1/88
+
+interface Ethernet1/89
+
+interface Ethernet1/90
+
+interface Ethernet1/91
+
+interface Ethernet1/92
+
+interface Ethernet1/93
+
+interface Ethernet1/94
+
+interface Ethernet1/95
+
+interface Ethernet1/96
+
+interface Ethernet1/97
+
+interface Ethernet1/98
+
+interface Ethernet1/99
+
+interface Ethernet1/100
+
+interface Ethernet1/101
+
+interface Ethernet1/102
+
+interface Ethernet1/103
+
+interface Ethernet1/104
+
+interface Ethernet1/105
+
+interface Ethernet1/106
+
+interface Ethernet1/107
+
+interface Ethernet1/108
+
+interface Ethernet1/109
+
+interface Ethernet1/110
+
+interface Ethernet1/111
+
+interface Ethernet1/112
+
+interface Ethernet1/113
+
+interface Ethernet1/114
+
+interface Ethernet1/115
+
+interface Ethernet1/116
+
+interface Ethernet1/117
+
+interface Ethernet1/118
+
+interface Ethernet1/119
+
+interface Ethernet1/120
+
+interface Ethernet1/121
+
+interface Ethernet1/122
+
+interface Ethernet1/123
+
+interface Ethernet1/124
+
+interface Ethernet1/125
+
+interface Ethernet1/126
+
+interface Ethernet1/127
+
+interface Ethernet1/128
+
+interface mgmt0
+  description OOB Management
+  vrf member management
+  ip address 172.16.30.55/24
+
+interface loopback0
+  description Default Loopback
+  ip address 192.168.0.1/32
+  ip router ospf 1 area 0.0.0.0
+line console
+line vty
+no feature signature-verification
+router ospf 1
+router bgp 65100
+  router-id 192.168.0.1
+  address-family ipv4 unicast
+    redistribute direct route-map CONN&gt;BGP
+  neighbor 172.16.0.1
+    remote-as 65100
+    address-family ipv4 unicast
+  neighbor 172.16.0.9
+    remote-as 65100
+    address-family ipv4 unicast
+
+
+
+</entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1"/>
+        <interface id="1" name="Ethernet1/2"/>
+        <interface id="2" name="Ethernet1/3"/>
+        <interface id="3" name="Ethernet1/4"/>
+        <interface id="4" name="Ethernet1/5"/>
+        <interface id="5" name="Ethernet1/6"/>
+    </node>
+    <node name="access1" type="SIMPLE" subtype="NX-OSv 9000" location="250,285" ipv4="192.168.0.3">
+        <extensions>
+            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:ac</entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"/>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="ansible_group" type="String">access</entry>
+            <entry key="config" type="String">!Command: show running-config
+!Running configuration last done at: Thu Jan 17 18:46:19 2019
+!Time: Thu Jan 17 20:59:27 2019
+
+version 9.2(2) Bios:version
+power redundancy-mode combined force
+
+hostname access1
+vdc access1 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 128 maximum 128
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+feature nxapi
+feature bash-shell
+feature scp-server
+feature interface-vlan
+feature lacp
+
+no password strength-check
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51  role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1  role network-admin
+no ip domain-lookup
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+vlan 1,100-103
+vlan 100
+  name Management
+vlan 101
+  name Private
+vlan 102
+  name Guest
+vlan 103
+  name Security
+
+vrf context management
+  ip route 0.0.0.0/0 172.16.30.254
+hardware forwarding unicast trace
+
+
+interface Vlan1
+
+interface port-channel11
+  switchport mode trunk
+
+interface Ethernet1/1
+  switchport mode trunk
+  channel-group 11
+
+interface Ethernet1/2
+  switchport mode trunk
+  channel-group 11
+
+interface Ethernet1/3
+
+interface Ethernet1/4
+
+interface Ethernet1/5
+
+interface Ethernet1/6
+
+interface Ethernet1/7
+
+interface Ethernet1/8
+
+interface Ethernet1/9
+
+interface Ethernet1/10
+
+interface Ethernet1/11
+
+interface Ethernet1/12
+
+interface Ethernet1/13
+
+interface Ethernet1/14
+
+interface Ethernet1/15
+
+interface Ethernet1/16
+
+interface Ethernet1/17
+
+interface Ethernet1/18
+
+interface Ethernet1/19
+
+interface Ethernet1/20
+
+interface Ethernet1/21
+
+interface Ethernet1/22
+
+interface Ethernet1/23
+
+interface Ethernet1/24
+
+interface Ethernet1/25
+
+interface Ethernet1/26
+
+interface Ethernet1/27
+
+interface Ethernet1/28
+
+interface Ethernet1/29
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+
+interface Ethernet1/32
+
+interface Ethernet1/33
+
+interface Ethernet1/34
+
+interface Ethernet1/35
+
+interface Ethernet1/36
+
+interface Ethernet1/37
+
+interface Ethernet1/38
+
+interface Ethernet1/39
+
+interface Ethernet1/40
+
+interface Ethernet1/41
+
+interface Ethernet1/42
+
+interface Ethernet1/43
+
+interface Ethernet1/44
+
+interface Ethernet1/45
+
+interface Ethernet1/46
+
+interface Ethernet1/47
+
+interface Ethernet1/48
+
+interface Ethernet1/49
+
+interface Ethernet1/50
+
+interface Ethernet1/51
+
+interface Ethernet1/52
+
+interface Ethernet1/53
+
+interface Ethernet1/54
+
+interface Ethernet1/55
+
+interface Ethernet1/56
+
+interface Ethernet1/57
+
+interface Ethernet1/58
+
+interface Ethernet1/59
+
+interface Ethernet1/60
+
+interface Ethernet1/61
+
+interface Ethernet1/62
+
+interface Ethernet1/63
+
+interface Ethernet1/64
+
+interface Ethernet1/65
+
+interface Ethernet1/66
+
+interface Ethernet1/67
+
+interface Ethernet1/68
+
+interface Ethernet1/69
+
+interface Ethernet1/70
+
+interface Ethernet1/71
+
+interface Ethernet1/72
+
+interface Ethernet1/73
+
+interface Ethernet1/74
+
+interface Ethernet1/75
+
+interface Ethernet1/76
+
+interface Ethernet1/77
+
+interface Ethernet1/78
+
+interface Ethernet1/79
+
+interface Ethernet1/80
+
+interface Ethernet1/81
+
+interface Ethernet1/82
+
+interface Ethernet1/83
+
+interface Ethernet1/84
+
+interface Ethernet1/85
+
+interface Ethernet1/86
+
+interface Ethernet1/87
+
+interface Ethernet1/88
+
+interface Ethernet1/89
+
+interface Ethernet1/90
+
+interface Ethernet1/91
+
+interface Ethernet1/92
+
+interface Ethernet1/93
+
+interface Ethernet1/94
+
+interface Ethernet1/95
+
+interface Ethernet1/96
+
+interface Ethernet1/97
+
+interface Ethernet1/98
+
+interface Ethernet1/99
+
+interface Ethernet1/100
+
+interface Ethernet1/101
+
+interface Ethernet1/102
+
+interface Ethernet1/103
+
+interface Ethernet1/104
+
+interface Ethernet1/105
+
+interface Ethernet1/106
+
+interface Ethernet1/107
+
+interface Ethernet1/108
+
+interface Ethernet1/109
+
+interface Ethernet1/110
+
+interface Ethernet1/111
+
+interface Ethernet1/112
+
+interface Ethernet1/113
+
+interface Ethernet1/114
+
+interface Ethernet1/115
+
+interface Ethernet1/116
+
+interface Ethernet1/117
+
+interface Ethernet1/118
+
+interface Ethernet1/119
+
+interface Ethernet1/120
+
+interface Ethernet1/121
+
+interface Ethernet1/122
+
+interface Ethernet1/123
+
+interface Ethernet1/124
+
+interface Ethernet1/125
+
+interface Ethernet1/126
+
+interface Ethernet1/127
+
+interface Ethernet1/128
+
+interface mgmt0
+  description OOB Management
+  vrf member management
+  ip address 172.16.30.52/24
+
+interface loopback0
+  description Default Loopback
+  ip address 192.168.0.2/32
+line console
+line vty
+no feature signature-verification
+
+
+
+</entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1"/>
+        <interface id="1" name="Ethernet1/2"/>
+        <interface id="2" name="Ethernet1/3"/>
+    </node>
+    <node name="dist2" type="SIMPLE" subtype="NX-OSv 9000" location="402,139" ipv4="192.168.0.2">
+        <extensions>
+            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:ab</entry>
+            <entry key="ansible_group" type="String">distribution</entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"/>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!Command: show running-config
+!Running configuration last done at: Thu Jan 17 20:07:06 2019
+!Time: Thu Jan 17 20:59:27 2019
+
+version 9.2(2) Bios:version
+power redundancy-mode combined force
+
+hostname dist2
+vdc dist2 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 128 maximum 128
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+feature nxapi
+feature bash-shell
+feature scp-server
+cfs eth distribute
+feature ospf
+feature bgp
+feature interface-vlan
+feature hsrp
+feature lacp
+feature vpc
+
+no password strength-check
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51  role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1  role network-admin
+no ip domain-lookup
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+vlan 1,100-103
+vlan 100
+  name Management
+vlan 101
+  name Private
+vlan 102
+  name Guest
+vlan 103
+  name Security
+
+ip prefix-list DC-NETWORKS seq 10 permit 172.16.0.0/16 le 32
+route-map CONN&gt;BGP permit 10
+  match ip address prefix-list DC-NETWORKS
+route-map OSPF&gt;BGP permit 10
+  match ip address prefix-list DC-NETWORKS
+vrf context management
+  ip route 0.0.0.0/0 172.16.30.254
+hardware forwarding unicast trace
+vpc domain 100
+  peer-keepalive destination 172.16.30.55 source 172.16.30.56
+  peer-gateway
+  auto-recovery
+
+
+interface Vlan1
+  no ip redirects
+  no ipv6 redirects
+
+interface Vlan100
+  description VLAN Interface - Management
+  no shutdown
+  no ip redirects
+  ip address 172.16.100.3/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.100.1
+
+interface Vlan101
+  description VLAN Interface - Private
+  no shutdown
+  no ip redirects
+  ip address 172.16.101.3/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.101.1
+
+interface Vlan102
+  description VLAN Interface - Guest
+  no shutdown
+  no ip redirects
+  ip address 172.16.102.3/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.102.1
+
+interface Vlan103
+  description VLAN Interface - Security
+  no shutdown
+  no ip redirects
+  ip address 172.16.103.3/24
+  no ipv6 redirects
+  ip router ospf 1 area 0.0.0.0
+  hsrp 10
+    ip 172.16.103.1
+
+interface port-channel1
+  switchport mode trunk
+  spanning-tree port type network
+  vpc peer-link
+
+interface port-channel11
+  switchport mode trunk
+  vpc 11
+
+interface Ethernet1/1
+  switchport mode trunk
+  channel-group 11
+
+interface Ethernet1/2
+
+interface Ethernet1/3
+  switchport mode trunk
+  channel-group 1
+
+interface Ethernet1/4
+  switchport mode trunk
+  channel-group 1
+
+interface Ethernet1/5
+  description L3 Link to core2
+  no switchport
+  ip address 172.16.0.14/30
+  no shutdown
+
+interface Ethernet1/6
+  description L3 Link to core1
+  no switchport
+  ip address 172.16.0.6/30
+  no shutdown
+
+interface Ethernet1/7
+
+interface Ethernet1/8
+
+interface Ethernet1/9
+
+interface Ethernet1/10
+
+interface Ethernet1/11
+
+interface Ethernet1/12
+
+interface Ethernet1/13
+
+interface Ethernet1/14
+
+interface Ethernet1/15
+
+interface Ethernet1/16
+
+interface Ethernet1/17
+
+interface Ethernet1/18
+
+interface Ethernet1/19
+
+interface Ethernet1/20
+
+interface Ethernet1/21
+
+interface Ethernet1/22
+
+interface Ethernet1/23
+
+interface Ethernet1/24
+
+interface Ethernet1/25
+
+interface Ethernet1/26
+
+interface Ethernet1/27
+
+interface Ethernet1/28
+
+interface Ethernet1/29
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+
+interface Ethernet1/32
+
+interface Ethernet1/33
+
+interface Ethernet1/34
+
+interface Ethernet1/35
+
+interface Ethernet1/36
+
+interface Ethernet1/37
+
+interface Ethernet1/38
+
+interface Ethernet1/39
+
+interface Ethernet1/40
+
+interface Ethernet1/41
+
+interface Ethernet1/42
+
+interface Ethernet1/43
+
+interface Ethernet1/44
+
+interface Ethernet1/45
+
+interface Ethernet1/46
+
+interface Ethernet1/47
+
+interface Ethernet1/48
+
+interface Ethernet1/49
+
+interface Ethernet1/50
+
+interface Ethernet1/51
+
+interface Ethernet1/52
+
+interface Ethernet1/53
+
+interface Ethernet1/54
+
+interface Ethernet1/55
+
+interface Ethernet1/56
+
+interface Ethernet1/57
+
+interface Ethernet1/58
+
+interface Ethernet1/59
+
+interface Ethernet1/60
+
+interface Ethernet1/61
+
+interface Ethernet1/62
+
+interface Ethernet1/63
+
+interface Ethernet1/64
+
+interface Ethernet1/65
+
+interface Ethernet1/66
+
+interface Ethernet1/67
+
+interface Ethernet1/68
+
+interface Ethernet1/69
+
+interface Ethernet1/70
+
+interface Ethernet1/71
+
+interface Ethernet1/72
+
+interface Ethernet1/73
+
+interface Ethernet1/74
+
+interface Ethernet1/75
+
+interface Ethernet1/76
+
+interface Ethernet1/77
+
+interface Ethernet1/78
+
+interface Ethernet1/79
+
+interface Ethernet1/80
+
+interface Ethernet1/81
+
+interface Ethernet1/82
+
+interface Ethernet1/83
+
+interface Ethernet1/84
+
+interface Ethernet1/85
+
+interface Ethernet1/86
+
+interface Ethernet1/87
+
+interface Ethernet1/88
+
+interface Ethernet1/89
+
+interface Ethernet1/90
+
+interface Ethernet1/91
+
+interface Ethernet1/92
+
+interface Ethernet1/93
+
+interface Ethernet1/94
+
+interface Ethernet1/95
+
+interface Ethernet1/96
+
+interface Ethernet1/97
+
+interface Ethernet1/98
+
+interface Ethernet1/99
+
+interface Ethernet1/100
+
+interface Ethernet1/101
+
+interface Ethernet1/102
+
+interface Ethernet1/103
+
+interface Ethernet1/104
+
+interface Ethernet1/105
+
+interface Ethernet1/106
+
+interface Ethernet1/107
+
+interface Ethernet1/108
+
+interface Ethernet1/109
+
+interface Ethernet1/110
+
+interface Ethernet1/111
+
+interface Ethernet1/112
+
+interface Ethernet1/113
+
+interface Ethernet1/114
+
+interface Ethernet1/115
+
+interface Ethernet1/116
+
+interface Ethernet1/117
+
+interface Ethernet1/118
+
+interface Ethernet1/119
+
+interface Ethernet1/120
+
+interface Ethernet1/121
+
+interface Ethernet1/122
+
+interface Ethernet1/123
+
+interface Ethernet1/124
+
+interface Ethernet1/125
+
+interface Ethernet1/126
+
+interface Ethernet1/127
+
+interface Ethernet1/128
+
+interface mgmt0
+  description OOB Management
+  vrf member management
+  ip address 172.16.30.56/24
+
+interface loopback0
+  description Default Loopback
+  ip address 192.168.0.2/32
+  ip router ospf 1 area 0.0.0.0
+line console
+line vty
+no feature signature-verification
+router ospf 1
+router bgp 65100
+  router-id 192.160.0.2
+  address-family ipv4 unicast
+    redistribute direct route-map CONN&gt;BGP
+  neighbor 172.16.0.5
+    remote-as 65100
+    address-family ipv4 unicast
+  neighbor 172.16.0.13
+    remote-as 65100
+    address-family ipv4 unicast
+
+
+
+</entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1"/>
+        <interface id="1" name="Ethernet1/2"/>
+        <interface id="2" name="Ethernet1/3"/>
+        <interface id="3" name="Ethernet1/4"/>
+        <interface id="4" name="Ethernet1/5"/>
+        <interface id="5" name="Ethernet1/6"/>
+    </node>
+    <node name="core1" type="SIMPLE" subtype="CSR1000v" location="114,41" ipv4="192.168.1.1">
+        <extensions>
+            <entry key="ansible_group" type="String">core</entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"/>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 19:28:58 UTC Thu Jan 17 2019 by cisco
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname core1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+enable secret 4 tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip admission watch-list expiry-time 0
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+ipv6 unicast-routing
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2211348222
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2211348222
+ revocation-check none
+ rsakeypair TP-self-signed-2211348222
+!
+!
+crypto pki certificate chain TP-self-signed-2211348222
+ certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 93PLLXQ4N2U
+license accept end user agreement
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+netconf-yang
+!
+restconf
+!
+username cisco privilege 15 secret 5 $1$xR9m$Lolpf6NRT9B6EIMazABlE/
+!
+redundancy
+!
+!
+!
+!
+!
+!
+cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description Default Loopback
+ ip address 192.168.1.1 255.255.255.255
+!
+interface GigabitEthernet1
+ description OOB Management
+ vrf forwarding Mgmt-intf
+ ip address 172.16.30.53 255.255.255.0
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ description L3 Link to dist1
+ ip address 172.16.0.1 255.255.255.252
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ description L3 Link to dist2
+ ip address 172.16.0.5 255.255.255.252
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ description L3 Link to core2
+ ip address 172.16.0.17 255.255.255.252
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+router bgp 65100
+ bgp log-neighbor-changes
+ neighbor 172.16.0.2 remote-as 65100
+ neighbor 172.16.0.6 remote-as 65100
+ neighbor 172.16.0.18 remote-as 65100
+ !
+ address-family ipv4
+  neighbor 172.16.0.2 activate
+  neighbor 172.16.0.6 activate
+  neighbor 172.16.0.18 activate
+ exit-address-family
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+snmp-server community public RO
+snmp-server community private RW
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ password cisco
+ stopbits 1
+line vty 0 4
+ exec-timeout 720 0
+ password cisco
+ login local
+ transport input telnet ssh
+!
+!
+!
+!
+!
+!
+end
+
+</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2" ipv4="10.0.0.5" netPrefixLenV4="30"/>
+        <interface id="1" name="GigabitEthernet3" ipv4="10.0.0.9" netPrefixLenV4="30"/>
+        <interface id="2" name="GigabitEthernet4"/>
+    </node>
+    <node name="core2" type="SIMPLE" subtype="CSR1000v" location="399,42" ipv4="192.168.1.2">
+        <extensions>
+            <entry key="ansible_group" type="String">core</entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"/>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 19:29:11 UTC Thu Jan 17 2019 by cisco
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname core2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+enable secret 4 tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip admission watch-list expiry-time 0
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+ipv6 unicast-routing
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-783544615
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-783544615
+ revocation-check none
+ rsakeypair TP-self-signed-783544615
+!
+!
+crypto pki certificate chain TP-self-signed-783544615
+ certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9YDATMBNCP8
+license accept end user agreement
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+netconf-yang
+!
+restconf
+!
+username cisco privilege 15 secret 5 $1$Orep$lTurSwNFUJZptGoFCTp4K/
+!
+redundancy
+!
+!
+!
+!
+!
+!
+cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description Default Loopback
+ ip address 192.168.1.2 255.255.255.255
+!
+interface GigabitEthernet1
+ description OOB Management
+ vrf forwarding Mgmt-intf
+ ip address 172.16.30.54 255.255.255.0
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ description L3 Link to dist2
+ ip address 172.16.0.13 255.255.255.252
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ description L3 Link to dist1
+ ip address 172.16.0.9 255.255.255.252
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ description L3 Link to core1
+ ip address 172.16.0.18 255.255.255.252
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+router bgp 65100
+ bgp log-neighbor-changes
+ neighbor 172.16.0.10 remote-as 65100
+ neighbor 172.16.0.14 remote-as 65100
+ neighbor 172.16.0.17 remote-as 65100
+ !
+ address-family ipv4
+  neighbor 172.16.0.10 activate
+  neighbor 172.16.0.14 activate
+  neighbor 172.16.0.17 activate
+ exit-address-family
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+snmp-server community public RO
+snmp-server community private RW
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ password cisco
+ stopbits 1
+line vty 0 4
+ exec-timeout 720 0
+ password cisco
+ login local
+ transport input telnet ssh
+!
+!
+!
+!
+!
+!
+end
+
+</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2" ipv4="10.0.0.17" netPrefixLenV4="30"/>
+        <interface id="1" name="GigabitEthernet3" ipv4="10.0.0.13" netPrefixLenV4="30"/>
+        <interface id="2" name="GigabitEthernet4"/>
+    </node>
+    <annotations/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[2]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[3]" src="/virl:topology/virl:node[1]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[4]" src="/virl:topology/virl:node[1]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[5]" src="/virl:topology/virl:node[4]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[5]" src="/virl:topology/virl:node[5]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[6]" src="/virl:topology/virl:node[4]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[6]" src="/virl:topology/virl:node[5]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[3]" src="/virl:topology/virl:node[4]/virl:interface[3]"/>
+</topology>
