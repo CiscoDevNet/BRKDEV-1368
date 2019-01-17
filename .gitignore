@@ -11,3 +11,4 @@ device_config_backups
 demo/netconf_configs
 scratch*
 .virl/
+nso/
