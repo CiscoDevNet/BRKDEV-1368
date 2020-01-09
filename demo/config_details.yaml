@@ -1,14 +1,15 @@
 ---
 # Network Host Connectivity Info
-network_mgmt_host: cl-vagrant2.cisco.com
-username: vagrant
-password: vagrant
+network_mgmt_host: 10.10.20.160
+username: cisco
+password: cisco
 
 # Network Devices
 devices:
   # IOS XE 1
   - name: iosxe1
-    netconf_port: 2123
+    mgmt_address: 172.16.30.181
+    netconf_port: 830
     interfaces:
       - name: GigabitEthernet2
         enabled: "true"
@@ -106,7 +107,8 @@ devices:
           area: "104"
   # IOS XE 2
   - name: iosxe2
-    netconf_port: 2223
+    mgmt_address: 172.16.30.182
+    netconf_port: 830
     interfaces:
       - name: GigabitEthernet2
         enabled: "true"
@@ -195,7 +197,8 @@ devices:
           area: "1000"
   # IOS XE 3
   - name: iosxe3
-    netconf_port: 2323
+    mgmt_address: 172.16.30.183
+    netconf_port: 830
     interfaces:
       - name: GigabitEthernet2
         enabled: "true"
@@ -250,7 +253,8 @@ devices:
           area: "256"
   # IOS XE 4
   - name: iosxe4
-    netconf_port: 2423
+    mgmt_address: 172.16.30.184
+    netconf_port: 830
     interfaces:
       - name: GigabitEthernet2
         enabled: "true"
