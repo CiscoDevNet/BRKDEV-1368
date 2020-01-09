@@ -65,6 +65,8 @@ interface GigabitEthernet1
   no ip address
   no shutdown
 !
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
+!
 netconf-yang 
 restconf 
 ip http server 
@@ -147,6 +149,8 @@ interface GigabitEthernet1
   no ip address
   no shutdown
 !
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
+!
 netconf-yang 
 restconf 
 ip http server 
@@ -226,6 +230,8 @@ interface GigabitEthernet1
   ! Configured on launch
   no ip address
   no shutdown
+!
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
 !
 netconf-yang 
 restconf 
@@ -307,6 +313,8 @@ interface GigabitEthernet1
   ! Configured on launch
   no ip address
   no shutdown
+!
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
 !
 netconf-yang 
 restconf 
