@@ -80,6 +80,12 @@ Follow these instructions to standup the demo and code environment.
         virl down --sim-name {SIMULATION_NAME}
         ```
 
+1. Jump into the demo directory where the topology file is located. 
+
+    ```bash
+    cd demo
+    ```
+
 1. Start a simulation for this lab. 
 
     ```bash
