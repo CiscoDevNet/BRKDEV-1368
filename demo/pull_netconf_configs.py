@@ -28,12 +28,12 @@ import xml.dom.minidom
 # Load Network Config Details from YAML Config File
 print("Loading Network Configuration Details from YAML")
 with open("config_details.yaml") as f:
-    config = yaml.load(f.read())
+    config = yaml.safe_load(f.read())
 
 print("Pulling network configuration from devices.")
 for device in config["devices"]:
     print("  Device: {}".format(device["name"]))
-    with manager.connect(host=config["network_mgmt_host"],
+    with manager.connect(host=device["mgmt_address"],
                          port=device["netconf_port"],
                          username=config["username"],
                          password=config["password"],

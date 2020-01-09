@@ -30,7 +30,7 @@ import xmltodict
 # Load Network Config Details from YAML Config File
 print("Loading Network Configuration Details from YAML")
 with open("config_details.yaml") as f:
-    config = yaml.load(f.read())
+    config = yaml.safe_load(f.read())
 
 # Create Jinja Template Objects for NETCONF Payloads
 print("Setting Up NETCONF Templates")
@@ -58,7 +58,7 @@ for device in config["devices"]:
 
     # Connect to Device with NETCONF
     print("  Connecting to device with NETCONF")
-    with manager.connect(host=config["network_mgmt_host"],
+    with manager.connect(host=device["mgmt_address"],
                          port=device["netconf_port"],
                          username=config["username"],
                          password=config["password"],
@@ -77,6 +77,6 @@ for device in config["devices"]:
         ospf_reply = xmltodict.parse(ospf_resp.xml)
 
         # Print Config Replies
-        print("    Layer 3 Interface Config: {}".format(l3_reply["rpc-reply"].keys()[3]))
-        print("    OSPF Config: {}".format(ospf_reply["rpc-reply"].keys()[3]))
+        print("    Layer 3 Interface Config: {}".format(list(l3_reply["rpc-reply"].keys())[3]))
+        print("    OSPF Config: {}".format(list(ospf_reply["rpc-reply"].keys())[3]))
         print("")
