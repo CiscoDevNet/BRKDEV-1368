@@ -9,7 +9,7 @@ enum34==1.1.6
 idna==2.6
 ipaddress==1.0.18
 Jinja2==2.9.6
-lxml==4.0.0
+lxml==4.6.2
 MarkupSafe==1.0
 ncclient==0.5.3
 paramiko==2.3.1
