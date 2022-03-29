@@ -12,7 +12,7 @@ Jinja2==2.9.6
 lxml==4.0.0
 MarkupSafe==1.0
 ncclient==0.5.3
-paramiko==2.3.1
+paramiko==2.10.1
 pyang==1.7.3
 pyasn1==0.3.7
 pybind11==2.2.1
